@@ -1,0 +1,20 @@
+name: Test Custom Action
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test-action:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Call My Custom Action
+        uses: ./.github/actions/hello-action
+        with:
+          name: Deepak
