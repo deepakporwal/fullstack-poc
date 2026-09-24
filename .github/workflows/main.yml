@@ -1,4 +1,4 @@
-name: Test Custom Action
+name: Main CI
 
 on:
   push:
@@ -21,3 +21,6 @@ jobs:
 
   sonar-scan:
     uses: ./.github/workflows/sonar-scan.yml
+
+  dotnet-build:
+    uses: ./.github/workflows/dotnet-build.yml
