@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongo:8
+    container_name: fullstack-mongo
+    restart: unless-stopped
+    ports: ["27017:27017"]
+    volumes: ["mongo_data:/data/db"]
+
+  api:
+    build: ./api
+    container_name: fullstack-api
+    restart: unless-stopped
+    depends_on: [mongo]
+    environment:
+      MongoDb__ConnectionString: mongodb://mongo:27017
+      MongoDb__DatabaseName: FullStackPocDb
+      Jwt__Key: CHANGE_THIS_TO_A_LONG_RANDOM_SECRET_FOR_REAL_USE
+      Jwt__Issuer: FullStackPoc
+      Jwt__Audience: FullStackPocClient
+      Jwt__ExpiryMinutes: 60
+    ports: ["8080:8080"]
+
+  web:
+    build: ./web
+    container_name: fullstack-web
+    restart: unless-stopped
+    depends_on: [api]
+    ports: ["3000:80"]
+
+volumes:
+  mongo_data:

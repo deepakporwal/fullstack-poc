@@ -1,0 +1,57 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build directories
+bin/
+obj/
+out/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+.nuget/
+packages/
+
+# ASP.NET / Sensitive settings
+appsettings.Development.json
+appsettings.*.Local.json
+secrets.json
+.usersecrets/
+
+# Logs
+*.log
+
+# Visual Studio Code
+.vscode/
+
+# Node
+node_modules/
+
+# Docker
+docker-compose.override.yml
+
+# Databases
+*.mdf
+*.ldf
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Certificates
+*.pfx
+
+# Coverage / Test results
+coverage/
+TestResults/
+
+# Environment files
+.env
+.env.*
