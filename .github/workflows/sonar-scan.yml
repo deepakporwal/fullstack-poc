@@ -1,0 +1,11 @@
+name: Dummy Sonar Scan
+
+on:
+  workflow_call:
+
+jobs:
+  sonar-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Sonar scan success
+        run: echo "Dummy Sonar scan succeeded"

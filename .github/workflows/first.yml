@@ -18,3 +18,6 @@ jobs:
         uses: ./.github/actions/hello-action
         with:
           name: Deepak
+
+  sonar-scan:
+    uses: ./.github/workflows/sonar-scan.yml
