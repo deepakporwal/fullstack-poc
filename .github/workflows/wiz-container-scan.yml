@@ -1,0 +1,67 @@
+name: Wiz Container Vulnerability Scan
+
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        description: Docker image to build and scan
+        required: true
+        type: choice
+        options:
+          - api
+          - web
+        default: api
+
+permissions:
+  contents: read
+
+jobs:
+  wiz-container-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build image
+        env:
+          SERVICE: ${{ inputs.service }}
+        run: |
+          case "$SERVICE" in
+            api)
+              docker build --tag fullstack-poc-api:wiz-scan ./api
+              ;;
+            web)
+              docker build --tag fullstack-poc-web:wiz-scan ./web
+              ;;
+            *)
+              echo "Unsupported service: $SERVICE"
+              exit 1
+              ;;
+          esac
+
+      - name: Install Wiz CLI
+        run: |
+          curl --fail --silent --show-error --location \
+            https://downloads.wiz.io/wizcli/latest/wizcli-linux-amd64 \
+            --output wizcli
+          chmod +x wizcli
+          sudo mv wizcli /usr/local/bin/wizcli
+          wizcli version
+
+      - name: Authenticate Wiz CLI
+        env:
+          WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
+          WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
+        run: wizcli auth --id "$WIZ_CLIENT_ID" --secret "$WIZ_CLIENT_SECRET"
+
+      - name: Scan container image
+        env:
+          SERVICE: ${{ inputs.service }}
+        run: wizcli docker scan --image "fullstack-poc-$SERVICE:wiz-scan"
+
+      - name: Display scan success
+        run: |
+          printf '\033[1;36m========================================\033[0m\n'
+          printf '\033[1;32m       WIZ SCAN COMPLETED SUCCESSFULLY\033[0m\n'
+          printf '\033[1;36m========================================\033[0m\n'
