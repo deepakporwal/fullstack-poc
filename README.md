@@ -1,3 +1,5 @@
+[![Test Custom Action](https://github.com/deepakporwal/fullstack-poc/actions/workflows/first.yml/badge.svg)](https://github.com/deepakporwal/fullstack-poc/actions/workflows/first.yml)
+
 # Full Stack Development POC
 
 React + .NET 8 Web API + MongoDB + JWT + Docker Compose.
